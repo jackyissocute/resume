@@ -1,3 +1,8 @@
+// ==================== EMAILJS SETUP ==================== 
+// Initialize EmailJS with your public key
+// Sign up at https://www.emailjs.com/ to get your credentials
+emailjs.init('AnivkGN83wZECdPQf'); // Replace with your EmailJS public key
+
 // ==================== NAVIGATION ==================== 
 const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');
@@ -43,8 +48,9 @@ window.addEventListener('scroll', () => {
     });
 });
 
-// ==================== CONTACT FORM ==================== 
+// ==================== CONTACT FORM WITH EMAIL ==================== 
 const contactForm = document.getElementById('contactForm');
+const submitBtn = contactForm.querySelector('button[type="submit"]');
 
 contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -64,15 +70,42 @@ contactForm.addEventListener('submit', (e) => {
         return;
     }
 
-    // Show success message
-    alert('Thank you for your message! I will get back to you soon.');
+    // Disable button and show loading state
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
 
-    // Reset form
-    contactForm.reset();
+    // Prepare email parameters
+    const templateParams = {
+        from_name: name,
+        from_email: email,
+        message: message,
+        to_email: 'jacky_lin_929@yahoo.com' // Your email address
+    };
 
-    // In a real application, you would send this data to a server
-    // Example using fetch:
-    // sendFormData(name, email, message);
+    // Send email using EmailJS
+    emailjs.send('service_zd08j2o', 'template_12iq6o5', templateParams)
+        .then(function(response) {
+            console.log('Email sent successfully!', response.status, response.text);
+            
+            // Show success message
+            alert('Thank you for your message! I will get back to you soon.');
+            
+            // Reset form
+            contactForm.reset();
+            
+            // Reset button
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Send Message';
+        }, function(error) {
+            console.log('Failed to send email:', error);
+            
+            // Show error message
+            alert('Failed to send message. Please try again or email me directly at jacky_lin_929@yahoo.com');
+            
+            // Reset button
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Send Message';
+        });
 });
 
 // Email validation helper
@@ -80,26 +113,6 @@ function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
 }
-
-// Optional: Send form data to a server
-// function sendFormData(name, email, message) {
-//     fetch('/api/contact', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify({ name, email, message })
-//     })
-//     .then(response => response.json())
-//     .then(data => {
-//         console.log('Success:', data);
-//         alert('Your message has been sent successfully!');
-//     })
-//     .catch(error => {
-//         console.error('Error:', error);
-//         alert('There was an error sending your message. Please try again.');
-//     });
-// }
 
 // ==================== SMOOTH SCROLL ==================== 
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -210,6 +223,11 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initialize smooth scrolling
     initSmoothScroll();
+    
+    // Check if EmailJS is initialized
+    if (typeof emailjs === 'undefined') {
+        console.warn('EmailJS library not loaded. Email functionality will not work.');
+    }
 });
 
 function initSmoothScroll() {
