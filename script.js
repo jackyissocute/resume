@@ -86,6 +86,7 @@ contactForm.addEventListener('submit', (e) => {
 
     // Send email using EmailJS.send() method as per official docs
     // Syntax: emailjs.send(serviceID, templateID, templateParams)
+    
     emailjs.send('service_zd08j2o', 'template_12iq6o5', templateParams)
         .then(
             // Success callback
