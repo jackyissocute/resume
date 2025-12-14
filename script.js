@@ -76,8 +76,8 @@ contactForm.addEventListener('submit', (e) => {
 
     // Prepare email parameters
     const templateParams = {
-        from_name: name,
-        from_email: email,
+        name: name,
+        email: email,
         message: message,
         to_email: 'jacky_lin_929@yahoo.com' // Your email address
     };
