@@ -1,5 +1,8 @@
 // ==================== EMAILJS SETUP ==================== 
-emailjs.init('AnivkGN83wZECdPQf');
+// Initialize EmailJS with proper options as per official docs
+emailjs.init({
+    publicKey: 'AnivkGN83wZECdPQf'
+});
 
 // ==================== NAVIGATION ==================== 
 const hamburger = document.querySelector('.hamburger');
@@ -23,7 +26,7 @@ navLinks.forEach(link => {
 function updateActiveLink(clickedLink) {
     navLinks.forEach(link => link.classList.remove('active'));
     clickedLink.classList.add('active');
-} // ← FIXED: Added closing brace
+}
 
 // Update active link on scroll
 window.addEventListener('scroll', () => {
@@ -50,6 +53,7 @@ window.addEventListener('scroll', () => {
 const contactForm = document.getElementById('contactForm');
 const submitBtn = contactForm.querySelector('button[type="submit"]');
 
+// Contact form submit handler
 contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
@@ -61,39 +65,55 @@ contactForm.addEventListener('submit', (e) => {
     if (!name || !email || !message) {
         alert('Please fill in all fields');
         return;
-    } // ← FIXED: Added closing brace
+    }
 
     if (!isValidEmail(email)) {
         alert('Please enter a valid email address');
         return;
-    } // ← FIXED: Added closing brace
+    }
 
     // Disable button and show loading state
     submitBtn.disabled = true;
     submitBtn.textContent = 'Sending...';
 
-    // Prepare email parameters
+    // Prepare email parameters - MUST match template variable names
     const templateParams = {
-        name: name,
-        email: email,
-        message: message,
-        to_email: 'jacky_lin_929@yahoo.com'
+        name: name,                                          // Maps to {{name}} in template
+        email: email,                                        // Maps to {{email}} in template
+        message: message,                                    // Maps to {{message}} in template
+        to_email: 'jacky_lin_929@yahoo.com'                 // Maps to {{to_email}} in template
     };
 
-    // Send email using EmailJS
+    // Send email using EmailJS.send() method as per official docs
+    // Syntax: emailjs.send(serviceID, templateID, templateParams)
     emailjs.send('service_zd08j2o', 'template_12iq6o5', templateParams)
-        .then(function(response) {
-            console.log('Email sent successfully!', response.status, response.text);
-            alert('Thank you for your message! I will get back to you soon.');
-            contactForm.reset();
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Send Message';
-        }, function(error) {
-            console.log('Failed to send email:', error);
-            alert('Failed to send message. Please try again or email me directly at jacky_lin_929@yahoo.com');
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Send Message';
-        });
+        .then(
+            // Success callback
+            (response) => {
+                console.log('SUCCESS!', response.status, response.text);
+                
+                // Show success message
+                alert('Thank you for your message! I will get back to you soon.');
+                
+                // Reset form
+                contactForm.reset();
+                
+                // Reset button
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+            },
+            // Error callback
+            (error) => {
+                console.log('FAILED...', error);
+                
+                // Show error message
+                alert('Failed to send message. Please try again or email me directly at jacky_lin_929@yahoo.com');
+                
+                // Reset button
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+            }
+        );
 });
 
 // Email validation helper
@@ -114,7 +134,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             });
         }
     });
-}); // ← FIXED: Added closing brace for forEach
+});
 
 // ==================== SCROLL ANIMATIONS ==================== 
 const observerOptions = {
@@ -207,11 +227,14 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('Resume website loaded successfully!');
     initSmoothScroll();
     
+    // Verify EmailJS is initialized
     if (typeof emailjs === 'undefined') {
         console.warn('EmailJS library not loaded. Email functionality will not work.');
+    } else {
+        console.log('EmailJS initialized successfully');
     }
-}); // ← FIXED: Added closing brace
+});
 
 function initSmoothScroll() {
     console.log('Smooth scrolling initialized');
-} // ← FIXED: Added closing brace
+}
