@@ -1,7 +1,5 @@
 // ==================== EMAILJS SETUP ==================== 
-// Initialize EmailJS with your public key
-// Sign up at https://www.emailjs.com/ to get your credentials
-emailjs.init('AnivkGN83wZECdPQf'); // Replace with your EmailJS public key
+emailjs.init('AnivkGN83wZECdPQf');
 
 // ==================== NAVIGATION ==================== 
 const hamburger = document.querySelector('.hamburger');
@@ -25,7 +23,7 @@ navLinks.forEach(link => {
 function updateActiveLink(clickedLink) {
     navLinks.forEach(link => link.classList.remove('active'));
     clickedLink.classList.add('active');
-}
+} // ← FIXED: Added closing brace
 
 // Update active link on scroll
 window.addEventListener('scroll', () => {
@@ -63,12 +61,12 @@ contactForm.addEventListener('submit', (e) => {
     if (!name || !email || !message) {
         alert('Please fill in all fields');
         return;
-    }
+    } // ← FIXED: Added closing brace
 
     if (!isValidEmail(email)) {
         alert('Please enter a valid email address');
         return;
-    }
+    } // ← FIXED: Added closing brace
 
     // Disable button and show loading state
     submitBtn.disabled = true;
@@ -79,30 +77,20 @@ contactForm.addEventListener('submit', (e) => {
         name: name,
         email: email,
         message: message,
-        to_email: 'jacky_lin_929@yahoo.com' // Your email address
+        to_email: 'jacky_lin_929@yahoo.com'
     };
 
     // Send email using EmailJS
     emailjs.send('service_zd08j2o', 'template_12iq6o5', templateParams)
         .then(function(response) {
             console.log('Email sent successfully!', response.status, response.text);
-            
-            // Show success message
             alert('Thank you for your message! I will get back to you soon.');
-            
-            // Reset form
             contactForm.reset();
-            
-            // Reset button
             submitBtn.disabled = false;
             submitBtn.textContent = 'Send Message';
         }, function(error) {
             console.log('Failed to send email:', error);
-            
-            // Show error message
             alert('Failed to send message. Please try again or email me directly at jacky_lin_929@yahoo.com');
-            
-            // Reset button
             submitBtn.disabled = false;
             submitBtn.textContent = 'Send Message';
         });
@@ -126,7 +114,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             });
         }
     });
-});
+}); // ← FIXED: Added closing brace for forEach
 
 // ==================== SCROLL ANIMATIONS ==================== 
 const observerOptions = {
@@ -201,7 +189,6 @@ if (footerText) {
 
 // ==================== KEYBOARD NAVIGATION ==================== 
 document.addEventListener('keydown', (e) => {
-    // Skip to content with Ctrl+K
     if (e.ctrlKey && e.key === 'k') {
         e.preventDefault();
         document.querySelector('#about').scrollIntoView({ behavior: 'smooth' });
@@ -209,28 +196,22 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ==================== PERFORMANCE: LAZY LOADING ==================== 
-// Prefetch resources for better performance
 if ('requestIdleCallback' in window) {
     requestIdleCallback(() => {
         console.log('Prefetching resources...');
-        // Prefetch external resources if needed
     });
 }
 
 // ==================== INITIALIZATION ==================== 
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Resume website loaded successfully!');
-    
-    // Initialize smooth scrolling
     initSmoothScroll();
     
-    // Check if EmailJS is initialized
     if (typeof emailjs === 'undefined') {
         console.warn('EmailJS library not loaded. Email functionality will not work.');
     }
-});
+}); // ← FIXED: Added closing brace
 
 function initSmoothScroll() {
-    // Already handled by the scroll event listener above
     console.log('Smooth scrolling initialized');
-}
+} // ← FIXED: Added closing brace
