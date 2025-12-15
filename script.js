@@ -77,7 +77,7 @@ contactForm.addEventListener('submit', (e) => {
     submitBtn.textContent = 'Sending...';
 
     // Prepare email parameters - MUST match template variable names
-    const templateParams = {
+    var templateParams = {
         name: name,                                          // Maps to {{name}} in template
         email: email,                                        // Maps to {{email}} in template
         message: message,                                    // Maps to {{message}} in template
