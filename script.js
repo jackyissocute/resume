@@ -1,11 +1,10 @@
-// ==================== EMAILJS SETUP ====================
-
+// ==================== EMAILJS SETUP ==================== 
+// Initialize EmailJS with proper options as per official docs
 emailjs.init({
     publicKey: 'AnivkGN83wZECdPQf'
 });
 
-// ==================== NAVIGATION ====================
-
+// ==================== NAVIGATION ==================== 
 const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');
 const navLinks = document.querySelectorAll('.nav-link');
@@ -33,6 +32,7 @@ function updateActiveLink(clickedLink) {
 window.addEventListener('scroll', () => {
     let current = '';
     const sections = document.querySelectorAll('section');
+
     sections.forEach(section => {
         const sectionTop = section.offsetTop;
         const sectionHeight = section.clientHeight;
@@ -49,14 +49,14 @@ window.addEventListener('scroll', () => {
     });
 });
 
-// ==================== CONTACT FORM WITH EMAIL ====================
-
+// ==================== CONTACT FORM WITH EMAIL ==================== 
 const contactForm = document.getElementById('contactForm');
 const submitBtn = contactForm.querySelector('button[type="submit"]');
 
 // Contact form submit handler
 contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
+
     const name = document.getElementById('name').value.trim();
     const email = document.getElementById('email').value.trim();
     const message = document.getElementById('message').value.trim();
@@ -78,26 +78,43 @@ contactForm.addEventListener('submit', (e) => {
 
     // Prepare email parameters - MUST match template variable names
     const templateParams = {
-        name: name,
-        email: email,
-        message: message,
-        to_email: 'jacky_lin_929@yahoo.com'
+        name: name,                                          // Maps to {{name}} in template
+        email: email,                                        // Maps to {{email}} in template
+        message: message,                                    // Maps to {{message}} in template
+        to_email: 'jacky_lin_929@yahoo.com'                 // Maps to {{to_email}} in template
     };
 
-    // Send email using EmailJS.send() method
+    // Send email using EmailJS.send() method as per official docs
+    // Syntax: emailjs.send(serviceID, templateID, templateParams)
+    
     emailjs.send('service_zd08j2o', 'template_12iq6o5', templateParams)
-        .then((response) => {
-            console.log('SUCCESS!', response.status, response.text);
-            alert('Thank you for your message! I will get back to you soon.');
-            contactForm.reset();
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Send Message';
-        }, (error) => {
-            console.log('FAILED...', error);
-            alert('Failed to send message. Please try again or email me directly at jacky_lin_929@yahoo.com');
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Send Message';
-        });
+        .then(
+            // Success callback
+            (response) => {
+                console.log('SUCCESS!', response.status, response.text);
+                
+                // Show success message
+                alert('Thank you for your message! I will get back to you soon.');
+                
+                // Reset form
+                contactForm.reset();
+                
+                // Reset button
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+            },
+            // Error callback
+            (error) => {
+                console.log('FAILED...', error);
+                
+                // Show error message
+                alert('Failed to send message. Please try again or email me directly at jacky_lin_929@yahoo.com');
+                
+                // Reset button
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+            }
+        );
 });
 
 // Email validation helper
@@ -106,8 +123,7 @@ function isValidEmail(email) {
     return emailRegex.test(email);
 }
 
-// ==================== SMOOTH SCROLL ====================
-
+// ==================== SMOOTH SCROLL ==================== 
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
@@ -121,8 +137,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// ==================== SCROLL ANIMATIONS ====================
-
+// ==================== SCROLL ANIMATIONS ==================== 
 const observerOptions = {
     threshold: 0.1,
     rootMargin: '0px 0px -100px 0px'
@@ -150,8 +165,7 @@ animateElements.forEach(element => {
     observer.observe(element);
 });
 
-// ==================== SKILLS INTERACTION ====================
-
+// ==================== SKILLS INTERACTION ==================== 
 const skillTags = document.querySelectorAll('.skill-tag');
 
 skillTags.forEach(tag => {
@@ -164,8 +178,7 @@ skillTags.forEach(tag => {
     });
 });
 
-// ==================== EXPERIENCE CARDS INTERACTION ====================
-
+// ==================== EXPERIENCE CARDS INTERACTION ==================== 
 const experienceCards = document.querySelectorAll('.experience-card');
 
 experienceCards.forEach(card => {
@@ -178,9 +191,9 @@ experienceCards.forEach(card => {
     });
 });
 
-// ==================== LOGO SCROLL TO TOP ====================
-
+// ==================== LOGO SCROLL TO TOP ==================== 
 const logo = document.querySelector('.logo');
+
 logo.addEventListener('click', () => {
     window.scrollTo({
         top: 0,
@@ -188,17 +201,14 @@ logo.addEventListener('click', () => {
     });
 });
 
-// ==================== DYNAMIC YEAR IN FOOTER ====================
-
+// ==================== DYNAMIC YEAR IN FOOTER ==================== 
 const year = new Date().getFullYear();
 const footerText = document.querySelector('.footer p');
-
 if (footerText) {
     footerText.textContent = `© ${year} Jacky Lin. All rights reserved.`;
 }
 
-// ==================== KEYBOARD NAVIGATION ====================
-
+// ==================== KEYBOARD NAVIGATION ==================== 
 document.addEventListener('keydown', (e) => {
     if (e.ctrlKey && e.key === 'k') {
         e.preventDefault();
@@ -206,20 +216,18 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// ==================== PERFORMANCE: LAZY LOADING ====================
-
+// ==================== PERFORMANCE: LAZY LOADING ==================== 
 if ('requestIdleCallback' in window) {
     requestIdleCallback(() => {
         console.log('Prefetching resources...');
     });
 }
 
-// ==================== INITIALIZATION ====================
-
+// ==================== INITIALIZATION ==================== 
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Resume website loaded successfully!');
     initSmoothScroll();
-
+    
     // Verify EmailJS is initialized
     if (typeof emailjs === 'undefined') {
         console.warn('EmailJS library not loaded. Email functionality will not work.');
